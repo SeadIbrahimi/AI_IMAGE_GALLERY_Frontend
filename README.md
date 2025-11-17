@@ -198,25 +198,9 @@ The application is fully responsive with breakpoints:
 
 ## 📝 Future Enhancements
 
-- Image editing capabilities (crop, rotate, filters)
 - Collections/Albums feature
 - Batch operations (multi-select, bulk delete)
 - Advanced search with multiple criteria
 - Image export in different formats
 - Dark mode support
 - PWA capabilities for offline access
-
-## 👤 Developer
-
-This project was developed by **Seadi** as part of a technical assessment for a job application.
-
-## 📄 License
-
-This project is private and intended for assessment purposes only.
-
-## 🙏 Acknowledgments
-
-- Original Figma design: [AI-Powered Image Gallery UI](https://www.figma.com/design/70XEhKS3sb5BE47y5ipv1s/AI-Powered-Image-Gallery-UI)
-- Radix UI for accessible components
-- Tailwind CSS for styling system
-- OpenAI for AI capabilities
