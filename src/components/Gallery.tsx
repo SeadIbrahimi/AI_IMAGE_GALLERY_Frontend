@@ -141,7 +141,7 @@ export default function Gallery() {
   }));
 
   return (
-    <div className="min-h-screen" style={{ background: "#F7FAFC" }}>
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-800">
       <Header
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
@@ -164,43 +164,43 @@ export default function Gallery() {
           {/* Active Filters Bar */}
           {(searchQuery || selectedColors.length > 0 || selectedTags.length > 0) && (
             <div className="mb-6 flex items-center gap-3 flex-wrap">
-              <span style={{ color: "#718096" }}>Active filters:</span>
+              <span className="text-gray-600 dark:text-gray-400">Active filters:</span>
               {searchQuery && (
-                <div className="px-3 py-1 bg-purple-100 rounded-full flex items-center gap-2">
-                  <span style={{ color: "#667EEA", fontSize: "14px" }}>
+                <div className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center gap-2">
+                  <span className="text-purple-600 dark:text-purple-400 text-sm">
                     Search: "{searchQuery}"
                   </span>
                   <button
                     onClick={() => setSearchQuery("")}
-                    className="hover:bg-purple-200 rounded-full p-0.5"
+                    className="hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full p-0.5"
                   >
-                    <X className="w-3 h-3" style={{ color: "#667EEA" }} />
+                    <X className="w-3 h-3 text-purple-600 dark:text-purple-400" />
                   </button>
                 </div>
               )}
               {selectedTags.map((tag) => (
-                <div key={tag} className="px-3 py-1 bg-purple-100 rounded-full flex items-center gap-2">
-                  <span style={{ color: "#667EEA", fontSize: "14px" }}>
+                <div key={tag} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center gap-2">
+                  <span className="text-purple-600 dark:text-purple-400 text-sm">
                     {tag}
                   </span>
                   <button
                     onClick={() => setSelectedTags(selectedTags.filter(t => t !== tag))}
-                    className="hover:bg-purple-200 rounded-full p-0.5"
+                    className="hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full p-0.5"
                   >
-                    <X className="w-3 h-3" style={{ color: "#667EEA" }} />
+                    <X className="w-3 h-3 text-purple-600 dark:text-purple-400" />
                   </button>
                 </div>
               ))}
               {selectedColors.map((color) => (
-                <div key={color} className="px-3 py-1 bg-purple-100 rounded-full flex items-center gap-2">
-                  <span style={{ color: "#667EEA", fontSize: "14px" }}>
+                <div key={color} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center gap-2">
+                  <span className="text-purple-600 dark:text-purple-400 text-sm">
                     {getColorName(color)}
                   </span>
                   <button
                     onClick={() => setSelectedColors(selectedColors.filter(c => c !== color))}
-                    className="hover:bg-purple-200 rounded-full p-0.5"
+                    className="hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full p-0.5"
                   >
-                    <X className="w-3 h-3" style={{ color: "#667EEA" }} />
+                    <X className="w-3 h-3 text-purple-600 dark:text-purple-400" />
                   </button>
                 </div>
               ))}
