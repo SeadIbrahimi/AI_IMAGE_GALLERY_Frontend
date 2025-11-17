@@ -118,7 +118,7 @@ export default function Sidebar({
       {/* Sidebar */}
       <aside
         className={`
-          w-64 bg-white border-r overflow-y-auto p-6 z-50
+          w-64 bg-white dark:bg-slate-900 border-r dark:border-slate-700 overflow-y-auto p-6 z-50
           fixed lg:relative
           top-0 lg:top-auto
           left-0 lg:left-auto
@@ -130,8 +130,7 @@ export default function Sidebar({
       >
         {/* Close button - only show on mobile */}
         <button
-          className="lg:hidden absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer"
-          style={{ color: "#718096" }}
+          className="lg:hidden absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer text-gray-600 dark:text-gray-400"
           aria-label="Close filters"
           onClick={() => setIsOpen(false)}
         >
@@ -140,7 +139,7 @@ export default function Sidebar({
 
         <div className="space-y-8">
           <div>
-            <h3 className="mb-4" style={{ color: "#2D3748" }}>
+            <h3 className="mb-4 text-gray-800 dark:text-white">
               Colors
             </h3>
             <div className="grid grid-cols-4 gap-3">
@@ -165,7 +164,7 @@ export default function Sidebar({
           </div>
 
           <div>
-            <h3 className="mb-4" style={{ color: "#2D3748" }}>
+            <h3 className="mb-4 text-gray-800 dark:text-white">
               Tags
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -173,15 +172,15 @@ export default function Sidebar({
                 <button
                   key={tag}
                   onClick={() => toggleTag(tag)}
-                  className="px-3 py-1.5 rounded-full uppercase transition-all hover:scale-105"
+                  className={`px-3 py-1.5 rounded-full uppercase transition-all hover:scale-105 text-xs ${
+                    selectedTags.includes(tag.toLowerCase())
+                      ? "text-white"
+                      : "bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200"
+                  }`}
                   style={{
                     background: selectedTags.includes(tag.toLowerCase())
                       ? "linear-gradient(135deg, #667EEA 0%, #764BA2 100%)"
-                      : "#E2E8F0",
-                    color: selectedTags.includes(tag.toLowerCase())
-                      ? "#FFFFFF"
-                      : "#2D3748",
-                    fontSize: "12px",
+                      : undefined,
                   }}
                 >
                   {tag}
@@ -193,24 +192,23 @@ export default function Sidebar({
           <div>
             <Label
               htmlFor="sort"
-              className="mb-3 block"
-              style={{ color: "#2D3748" }}
+              className="mb-3 block text-gray-800 dark:text-white"
             >
               Sort By
             </Label>
             <Select value={sortBy} onValueChange={onSortChange}>
               <SelectTrigger
                 id="sort"
-                className="h-11"
+                className="h-11 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600"
                 style={{ borderColor: "#E2E8F0" }}
               >
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">Most Recent</SelectItem>
-                <SelectItem value="oldest">Oldest First</SelectItem>
-                <SelectItem value="a-z">A-Z</SelectItem>
-                <SelectItem value="z-a">Z-A</SelectItem>
+              <SelectContent className="bg-white dark:bg-slate-800 dark:border-slate-600">
+                <SelectItem value="recent" className="dark:text-white dark:hover:bg-slate-700">Most Recent</SelectItem>
+                <SelectItem value="oldest" className="dark:text-white dark:hover:bg-slate-700">Oldest First</SelectItem>
+                <SelectItem value="a-z" className="dark:text-white dark:hover:bg-slate-700">A-Z</SelectItem>
+                <SelectItem value="z-a" className="dark:text-white dark:hover:bg-slate-700">Z-A</SelectItem>
               </SelectContent>
             </Select>
           </div>
