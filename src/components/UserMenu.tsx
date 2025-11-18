@@ -7,12 +7,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { User, Settings, HelpCircle, LogOut } from "lucide-react";
+import { User, Settings, HelpCircle, LogOut, Moon, Sun } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function UserMenu() {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
@@ -34,18 +36,35 @@ export default function UserMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-56 bg-white rounded-lg shadow-lg border"
+        className="w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border"
         style={{ borderColor: "#E2E8F0" }}
       >
         <div className="px-3 py-2 border-b" style={{ borderColor: "#E2E8F0" }}>
-          <p style={{ color: "#2D3748" }}>
+          <p className="text-gray-800 dark:text-gray-200">
             {user?.email || "demo@example.com"}
           </p>
         </div>
         <DropdownMenuSeparator style={{ background: "#E2E8F0" }} />
         <DropdownMenuItem
+          onClick={toggleTheme}
+          className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center"
+        >
+          {theme === "light" ? (
+            <>
+              <Moon className="w-4 h-4 mr-2" style={{ color: "#667EEA" }} />
+              <span className="text-gray-800 dark:text-gray-200">Dark Mode</span>
+            </>
+          ) : (
+            <>
+              <Sun className="w-4 h-4 mr-2" style={{ color: "#F59E0B" }} />
+              <span className="text-gray-800 dark:text-gray-200">Light Mode</span>
+            </>
+          )}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator style={{ background: "#E2E8F0" }} />
+        <DropdownMenuItem
           onClick={handleLogout}
-          className="cursor-pointer hover:bg-red-50"
+          className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20"
         >
           <LogOut className="w-4 h-4 mr-2" style={{ color: "#F56565" }} />
           <span style={{ color: "#F56565" }}>Logout</span>
