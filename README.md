@@ -5,6 +5,7 @@ A modern, full-featured image gallery application with AI-powered features, buil
 ## 🎯 Project Purpose
 
 This project was developed as part of a technical skills assessment to demonstrate:
+
 - Modern React development with TypeScript
 - Integration with RESTful APIs and AI services
 - User authentication and session management
@@ -14,6 +15,7 @@ This project was developed as part of a technical skills assessment to demonstra
 ## ✨ Features
 
 ### Core Functionality
+
 - **User Authentication**: Complete auth system with login, signup, and email verification
 - **Session Management**: Automatic token refresh when sessions expire with user-friendly modal
 - **Image Upload**: Single and bulk image upload with progress tracking
@@ -24,12 +26,14 @@ This project was developed as part of a technical skills assessment to demonstra
 - **Metadata Editing**: Update descriptions, tags, and colors with an intuitive modal interface
 
 ### AI-Powered Features
+
 - **AI Description Generation**: Automatic image description using computer vision
 - **Smart Tagging**: AI-generated tags for better organization
 - **Color Extraction**: Dominant color detection and display
 - **Visual Similarity**: Find similar images based on AI embeddings
 
 ### Technical Features
+
 - **Session Expiry Handling**: Modal prompt to refresh session or logout when token expires
 - **Email Verification**: Users must verify email before accessing the application
 - **Dynamic Data**: Tags and colors fetched from backend based on actual image data
@@ -41,6 +45,7 @@ This project was developed as part of a technical skills assessment to demonstra
 ## 🛠️ Technology Stack
 
 ### Frontend
+
 - **React 18** - Modern React with hooks and functional components
 - **TypeScript** - Type-safe development
 - **Vite** - Fast build tool and dev server
@@ -51,12 +56,14 @@ This project was developed as part of a technical skills assessment to demonstra
 - **Lucide React** - Beautiful icon library
 
 ### Backend Integration
+
 - **FastAPI** - Python REST API
 - **Supabase** - Authentication and database
 - **OpenAI Vision API** - AI image analysis
 - **CLIP Embeddings** - Visual similarity search
 
 ### Key Libraries
+
 - **class-variance-authority** - Component variant management
 - **clsx** & **tailwind-merge** - Conditional class names
 - **react-hook-form** - Form validation
@@ -71,17 +78,21 @@ This project was developed as part of a technical skills assessment to demonstra
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 2. Configure Environment
+
 The `.env` file is already set up with the local API URL:
+
 ```env
 VITE_API_BASE_URL=http://127.0.0.1:8001
 ```
 
 ### 3. Start Development Server
+
 ```bash
 npm run dev
 ```
@@ -89,6 +100,7 @@ npm run dev
 The application will be available at `http://localhost:5173`
 
 ### 4. Build for Production
+
 ```bash
 npm run build
 ```
@@ -126,6 +138,7 @@ src/
 ## 🎨 Design System
 
 The application follows a consistent design system:
+
 - **Primary Gradient**: Purple gradient (#667EEA → #764BA2)
 - **Colors**: Semantic color palette for states and actions
 - **Typography**: Clear hierarchy with readable font sizes
@@ -138,11 +151,13 @@ The application follows a consistent design system:
 The application integrates with the following backend endpoints:
 
 ### Authentication
+
 - `POST /auth/signup` - Create new account
 - `POST /auth/login` - Login with credentials
 - `POST /auth/refresh` - Refresh access token
 
 ### Images
+
 - `GET /images` - List images with pagination and filters
 - `GET /images/{id}` - Get image details
 - `POST /images/upload` - Upload single image
@@ -152,23 +167,27 @@ The application integrates with the following backend endpoints:
 - `GET /images/{id}/similar` - Get similar images
 
 ### Metadata
+
 - `GET /tags/recent` - Get recent tags
 - `GET /colors/popular` - Get popular colors
 
 ## 🎯 Key Implementation Details
 
 ### Token Refresh Flow
+
 - API service dispatches `session-expired` event on 401 errors
 - App component listens for event and shows SessionExpiredModal
 - User can choose to refresh session or logout
 - On refresh, new tokens are stored and page reloads
 
 ### Dynamic Filters
+
 - Tags and colors are fetched from backend on component mount
 - Fallback to default values if API fails
 - Filters update URL query params for shareable links
 
 ### Image Editing
+
 - Color picker for visual color selection
 - Hex validation for manual color input
 - Tag management with add/remove functionality
@@ -177,6 +196,7 @@ The application integrates with the following backend endpoints:
 ## 📱 Responsive Design
 
 The application is fully responsive with breakpoints:
+
 - **Mobile**: < 768px (single column, mobile menu)
 - **Tablet**: 768px - 1024px (2 column grid)
 - **Desktop**: > 1024px (3+ column grid, sidebar always visible)
