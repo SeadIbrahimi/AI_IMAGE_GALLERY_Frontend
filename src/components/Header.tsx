@@ -31,8 +31,7 @@ export default function Header({
 
   return (
     <header
-      className="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b dark:border-slate-700"
-      style={{ borderColor: "#E2E8F0" }}
+      className="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700"
     >
       <div className="flex items-center justify-between px-4 md:px-8 py-4 gap-2 md:gap-0">
         <div className="flex items-center gap-2 md:gap-3">
@@ -64,8 +63,7 @@ export default function Header({
               placeholder="Search images..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="pl-9 md:pl-10 h-10 md:h-11 text-sm md:text-base bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600"
-              style={{ borderColor: "#E2E8F0" }}
+              className="pl-9 md:pl-10 h-10 md:h-11 text-sm md:text-base bg-white dark:bg-slate-800 dark:text-white border-gray-200 dark:border-slate-600"
             />
             <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-gray-400 dark:text-gray-500" />
           </div>

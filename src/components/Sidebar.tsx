@@ -118,7 +118,7 @@ export default function Sidebar({
       {/* Sidebar */}
       <aside
         className={`
-          w-64 bg-white dark:bg-slate-900 border-r dark:border-slate-700 overflow-y-auto p-6 z-50
+          w-64 bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-700 overflow-y-auto p-6 z-50
           fixed lg:relative
           top-0 lg:top-auto
           left-0 lg:left-auto
@@ -126,7 +126,6 @@ export default function Sidebar({
           transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
-        style={{ borderColor: "#E2E8F0" }}
       >
         {/* Close button - only show on mobile */}
         <button
@@ -147,15 +146,16 @@ export default function Sidebar({
                 <button
                   key={colorItem.color}
                   onClick={() => toggleColor(colorItem.color)}
-                  className="w-10 h-10 rounded-full border-2 transition-all hover:scale-110"
+                  className={`w-10 h-10 rounded-full transition-all hover:scale-110 ${
+                    selectedColors.includes(colorItem.color)
+                      ? "border-[3px]"
+                      : "border-2 border-gray-200 dark:border-slate-600"
+                  }`}
                   style={{
                     background: colorItem.color,
                     borderColor: selectedColors.includes(colorItem.color)
                       ? "#667EEA"
-                      : "#E2E8F0",
-                    borderWidth: selectedColors.includes(colorItem.color)
-                      ? "3px"
-                      : "2px",
+                      : undefined,
                   }}
                   title={colorItem.color}
                 />
@@ -199,8 +199,7 @@ export default function Sidebar({
             <Select value={sortBy} onValueChange={onSortChange}>
               <SelectTrigger
                 id="sort"
-                className="h-11 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600"
-                style={{ borderColor: "#E2E8F0" }}
+                className="h-11 bg-white dark:bg-slate-800 dark:text-white border-gray-200 dark:border-slate-600"
               >
                 <SelectValue />
               </SelectTrigger>

@@ -204,9 +204,10 @@ export default function Gallery() {
   };
 
   const handleUploadComplete = async () => {
-    // Refresh the images list after upload and reset to page 1
-    await fetchImages(true);
+    // Close modal immediately
     setIsUploadModalOpen(false);
+    // Refresh the images list and reset to page 1
+    await fetchImages(true);
   };
 
   // Convert backend images to display format

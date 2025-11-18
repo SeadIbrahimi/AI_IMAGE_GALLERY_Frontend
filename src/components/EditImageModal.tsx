@@ -117,17 +117,14 @@ export default function EditImageModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl bg-white rounded-xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl bg-white dark:bg-slate-900 rounded-xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle style={{ color: "#2D3748" }}>Edit Image Metadata</DialogTitle>
+          <DialogTitle className="text-gray-800 dark:text-gray-200">Edit Image Metadata</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div
-              className="p-3 rounded-lg"
-              style={{ background: "#FED7D7", color: "#F56565" }}
-            >
+            <div className="p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-500">
               {error}
             </div>
           )}
@@ -136,8 +133,7 @@ export default function EditImageModal({
           <div>
             <label
               htmlFor="description"
-              className="block mb-2"
-              style={{ color: "#2D3748", fontWeight: 500 }}
+              className="block mb-2 text-gray-800 dark:text-gray-200 font-medium"
             >
               Description
             </label>
@@ -148,7 +144,6 @@ export default function EditImageModal({
               placeholder="Enter image description..."
               rows={4}
               className="w-full"
-              style={{ borderColor: "#E2E8F0" }}
             />
           </div>
 
@@ -156,8 +151,7 @@ export default function EditImageModal({
           <div>
             <label
               htmlFor="tags"
-              className="block mb-2"
-              style={{ color: "#2D3748", fontWeight: 500 }}
+              className="block mb-2 text-gray-800 dark:text-gray-200 font-medium"
             >
               Tags
             </label>
@@ -173,7 +167,6 @@ export default function EditImageModal({
                   }
                 }}
                 placeholder="Add a tag and press Enter"
-                style={{ borderColor: "#E2E8F0" }}
               />
               <Button
                 type="button"
@@ -188,18 +181,15 @@ export default function EditImageModal({
               {tags.map((tag) => (
                 <div
                   key={tag}
-                  className="px-3 py-1.5 bg-purple-100 rounded-full flex items-center gap-2"
+                  className="px-3 py-1.5 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center gap-2"
                 >
-                  <span
-                    style={{ color: "#667EEA", fontSize: "14px" }}
-                    className="uppercase"
-                  >
+                  <span className="text-sm uppercase" style={{ color: "#667EEA" }}>
                     {tag}
                   </span>
                   <button
                     type="button"
                     onClick={() => handleRemoveTag(tag)}
-                    className="hover:bg-purple-200 rounded-full p-0.5"
+                    className="hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full p-0.5"
                   >
                     <X className="w-3 h-3" style={{ color: "#667EEA" }} />
                   </button>
@@ -212,8 +202,7 @@ export default function EditImageModal({
           <div>
             <label
               htmlFor="colors"
-              className="block mb-2"
-              style={{ color: "#2D3748", fontWeight: 500 }}
+              className="block mb-2 text-gray-800 dark:text-gray-200 font-medium"
             >
               Colors
             </label>
@@ -223,8 +212,7 @@ export default function EditImageModal({
                   type="color"
                   value={colorInput || "#000000"}
                   onChange={(e) => setColorInput(e.target.value.toUpperCase())}
-                  className="w-12 h-11 rounded border-2 cursor-pointer"
-                  style={{ borderColor: "#E2E8F0" }}
+                  className="w-12 h-11 rounded border-2 cursor-pointer border-gray-200 dark:border-slate-700"
                   title="Pick a color"
                 />
                 <Input
@@ -238,7 +226,6 @@ export default function EditImageModal({
                     }
                   }}
                   placeholder="e.g., #FF6B35"
-                  style={{ borderColor: "#E2E8F0" }}
                 />
               </div>
               <Button
@@ -257,10 +244,9 @@ export default function EditImageModal({
                   className="flex flex-col items-center gap-2 relative group"
                 >
                   <div
-                    className="w-12 h-12 rounded-full border-2 relative"
+                    className="w-12 h-12 rounded-full border-2 border-gray-200 dark:border-slate-700 relative"
                     style={{
                       background: color,
-                      borderColor: "#E2E8F0",
                     }}
                   >
                     <button
@@ -271,10 +257,7 @@ export default function EditImageModal({
                       <X className="w-3 h-3" />
                     </button>
                   </div>
-                  <span
-                    className="uppercase text-xs"
-                    style={{ color: "#718096" }}
-                  >
+                  <span className="uppercase text-xs text-gray-600 dark:text-gray-400">
                     {color}
                   </span>
                 </div>
@@ -283,7 +266,7 @@ export default function EditImageModal({
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-4 border-t" style={{ borderColor: "#E2E8F0" }}>
+          <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-slate-700">
             <Button
               type="button"
               onClick={handleClose}

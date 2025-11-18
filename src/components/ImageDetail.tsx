@@ -129,10 +129,7 @@ export default function ImageDetail() {
 
   if (isLoading) {
     return (
-      <div
-        className="min-h-screen flex flex-col items-center justify-center"
-        style={{ background: "#F7FAFC" }}
-      >
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-800 flex flex-col items-center justify-center">
         <LoadingSpinner size="lg" />
         <p className="mt-4 text-lg font-medium" style={{ color: "#667EEA" }}>
           Loading image...
@@ -143,13 +140,10 @@ export default function ImageDetail() {
 
   if (error || !image) {
     return (
-      <div
-        className="min-h-screen flex flex-col items-center justify-center"
-        style={{ background: "#F7FAFC" }}
-      >
-        <ImageOff className="w-24 h-24 mb-4" style={{ color: "#CBD5E0" }} />
-        <h2 style={{ color: "#2D3748" }}>Failed to load image</h2>
-        <p className="mt-2 mb-6" style={{ color: "#718096" }}>
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-800 flex flex-col items-center justify-center">
+        <ImageOff className="w-24 h-24 mb-4 text-gray-400 dark:text-gray-600" />
+        <h2 className="text-gray-800 dark:text-gray-200">Failed to load image</h2>
+        <p className="mt-2 mb-6 text-gray-600 dark:text-gray-400">
           {error || "Image not found"}
         </p>
         <Button
@@ -175,8 +169,8 @@ export default function ImageDetail() {
           onClose={() => setNotification(null)}
         />
       )}
-      <div className="min-h-screen" style={{ background: "#F7FAFC" }}>
-        <div className="bg-white border-b" style={{ borderColor: "#E2E8F0" }}>
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-800">
+        <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700">
           <div className="container mx-auto px-8 py-4">
             <Button
               onClick={() => navigate("/gallery")}
@@ -191,7 +185,7 @@ export default function ImageDetail() {
 
         <div className="container mx-auto px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg h-[fit-content] relative">
+            <div className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-lg h-fit relative">
               <ImageWithFallback
                 src={image.thumbnail_url}
                 alt={image.filename}
@@ -200,57 +194,54 @@ export default function ImageDetail() {
             </div>
 
             <div className="space-y-6">
-              <div className="bg-white rounded-xl p-6 shadow-lg relative">
+              <div className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg relative">
                 <button
                   onClick={() => setIsEditModalOpen(true)}
-                  className="absolute top-2 right-4 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-10"
+                  className="absolute top-2 right-4 w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-10"
                   style={{ color: "#667EEA" }}
                   title="Edit metadata"
                 >
                   <Edit className="w-5 h-5" />
                 </button>
-                <h1 className="mb-4" style={{ color: "#2D3748" }}>
+                <h1 className="mb-4 text-gray-800 dark:text-gray-200">
                   {image.filename}
                 </h1>
 
-                <div className="space-y-3 mb-6" style={{ color: "#718096" }}>
+                <div className="space-y-3 mb-6 text-gray-600 dark:text-gray-400">
                   <div className="flex justify-between">
                     <span>Uploaded:</span>
-                    <span style={{ color: "#2D3748" }}>
+                    <span className="text-gray-800 dark:text-gray-200">
                       {formatUploadTime(image.uploaded_at)}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Size:</span>
-                    <span style={{ color: "#2D3748" }}>
+                    <span className="text-gray-800 dark:text-gray-200">
                       {formatFileSize(image.file_size)}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Status:</span>
-                    <span style={{ color: "#2D3748" }} className="capitalize">
+                    <span className="text-gray-800 dark:text-gray-200 capitalize">
                       {image.metadata.ai_processing_status}
                     </span>
                   </div>
                 </div>
 
                 {image.metadata.description && (
-                  <div
-                    className="border-t pt-6"
-                    style={{ borderColor: "#E2E8F0" }}
-                  >
-                    <h3 className="mb-3" style={{ color: "#2D3748" }}>
+                  <div className="border-t border-gray-200 dark:border-slate-700 pt-6">
+                    <h3 className="mb-3 text-gray-800 dark:text-gray-200">
                       AI Description
                     </h3>
-                    <p style={{ color: "#718096" }}>
+                    <p className="text-gray-600 dark:text-gray-400">
                       {image.metadata.description}
                     </p>
                   </div>
                 )}
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-lg">
-                <h3 className="mb-3" style={{ color: "#2D3748" }}>
+              <div className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg">
+                <h3 className="mb-3 text-gray-800 dark:text-gray-200">
                   Tags
                 </h3>
                 <div className="flex flex-wrap gap-2 mb-6">
@@ -270,11 +261,11 @@ export default function ImageDetail() {
                       </Badge>
                     ))
                   ) : (
-                    <p style={{ color: "#718096" }}>No tags available</p>
+                    <p className="text-gray-600 dark:text-gray-400">No tags available</p>
                   )}
                 </div>
 
-                <h3 className="mb-3" style={{ color: "#2D3748" }}>
+                <h3 className="mb-3 text-gray-800 dark:text-gray-200">
                   Dominant Colors
                 </h3>
                 <div className="flex gap-3 mb-6">
@@ -286,23 +277,19 @@ export default function ImageDetail() {
                           className="flex flex-col items-center gap-2"
                         >
                           <div
-                            className="w-10 h-10 rounded-full border-2"
+                            className="w-10 h-10 rounded-full border-2 border-gray-200 dark:border-slate-700"
                             style={{
                               background: color,
-                              borderColor: "#E2E8F0",
                             }}
                           />
-                          <span
-                            className="uppercase"
-                            style={{ color: "#718096", fontSize: "12px" }}
-                          >
+                          <span className="uppercase text-gray-600 dark:text-gray-400 text-xs">
                             {color}
                           </span>
                         </div>
                       )
                     )
                   ) : (
-                    <p style={{ color: "#718096" }}>No colors available</p>
+                    <p className="text-gray-600 dark:text-gray-400">No colors available</p>
                   )}
                 </div>
 

@@ -87,11 +87,8 @@ export default function Signup() {
           onClose={() => setNotification(null)}
         />
       )}
-      <div
-        className="min-h-screen flex items-center justify-center px-4"
-        style={{ background: "#F7FAFC" }}
-      >
-        <div className="w-full max-w-[400px] bg-white rounded-xl shadow-lg p-8">
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-800 flex items-center justify-center px-4">
+        <div className="w-full max-w-[400px] bg-white dark:bg-slate-900 rounded-xl shadow-lg p-8">
           <div className="flex flex-col items-center mb-8">
             <div
               className="w-16 h-16 rounded-xl flex items-center justify-center mb-4"
@@ -101,17 +98,17 @@ export default function Signup() {
             >
               <ImageIcon className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-center" style={{ color: "#2D3748" }}>
+            <h1 className="text-center text-gray-800 dark:text-gray-200">
               Create Account
             </h1>
-            <p className="text-center mt-2" style={{ color: "#718096" }}>
+            <p className="text-center mt-2 text-gray-600 dark:text-gray-400">
               Join AI Gallery to organize your images
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" style={{ color: "#2D3748" }}>
+              <Label htmlFor="email" className="text-gray-800 dark:text-gray-200">
                 Email
               </Label>
               <Input
@@ -121,14 +118,13 @@ export default function Signup() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-11"
-                style={{ borderColor: "#E2E8F0" }}
                 required
                 disabled={isSubmitting}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" style={{ color: "#2D3748" }}>
+              <Label htmlFor="password" className="text-gray-800 dark:text-gray-200">
                 Password
               </Label>
               <Input
@@ -138,7 +134,6 @@ export default function Signup() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="h-11"
-                style={{ borderColor: "#E2E8F0" }}
                 required
                 disabled={isSubmitting}
               />
@@ -146,16 +141,15 @@ export default function Signup() {
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
                     <span
-                      className="uppercase"
+                      className="uppercase text-xs"
                       style={{
                         color: passwordStrength.color,
-                        fontSize: "12px",
                       }}
                     >
                       {passwordStrength.label}
                     </span>
                   </div>
-                  <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-1 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
                     <div
                       className="h-full transition-all duration-300"
                       style={{
@@ -169,7 +163,7 @@ export default function Signup() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword" style={{ color: "#2D3748" }}>
+              <Label htmlFor="confirmPassword" className="text-gray-800 dark:text-gray-200">
                 Confirm Password
               </Label>
               <div className="relative">
@@ -232,7 +226,7 @@ export default function Signup() {
               {isSubmitting ? "Creating Account..." : "Create Account"}
             </Button>
 
-            <p className="text-center" style={{ color: "#718096" }}>
+            <p className="text-center text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
               <Link
                 to="/login"

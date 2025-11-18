@@ -31,20 +31,19 @@ export default function UserMenu() {
             background: "linear-gradient(135deg, #667EEA 0%, #764BA2 100%)",
           }}
         >
-          DU
+          {user?.email ? user.email.charAt(0).toUpperCase() : "D"}
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border"
-        style={{ borderColor: "#E2E8F0" }}
+        className="w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-600"
       >
-        <div className="px-3 py-2 border-b" style={{ borderColor: "#E2E8F0" }}>
+        <div className="px-3 py-2 border-b border-gray-200 dark:border-slate-600">
           <p className="text-gray-800 dark:text-gray-200">
             {user?.email || "demo@example.com"}
           </p>
         </div>
-        <DropdownMenuSeparator style={{ background: "#E2E8F0" }} />
+        <DropdownMenuSeparator className="bg-gray-200 dark:bg-slate-600" />
         <DropdownMenuItem
           onClick={toggleTheme}
           className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center"
@@ -52,16 +51,20 @@ export default function UserMenu() {
           {theme === "light" ? (
             <>
               <Moon className="w-4 h-4 mr-2" style={{ color: "#667EEA" }} />
-              <span className="text-gray-800 dark:text-gray-200">Dark Mode</span>
+              <span className="text-gray-800 dark:text-gray-200">
+                Dark Mode
+              </span>
             </>
           ) : (
             <>
               <Sun className="w-4 h-4 mr-2" style={{ color: "#F59E0B" }} />
-              <span className="text-gray-800 dark:text-gray-200">Light Mode</span>
+              <span className="text-gray-800 dark:text-gray-200">
+                Light Mode
+              </span>
             </>
           )}
         </DropdownMenuItem>
-        <DropdownMenuSeparator style={{ background: "#E2E8F0" }} />
+        <DropdownMenuSeparator className="bg-gray-200 dark:bg-slate-600" />
         <DropdownMenuItem
           onClick={handleLogout}
           className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20"

@@ -26,9 +26,9 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       onClick={onClick}
-      className=" bg-white rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow"
+      className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+      <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-slate-800">
         <ImageWithFallback
           src={image.url}
           alt={image.filename}
@@ -59,7 +59,7 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
       </div>
 
       <div className="p-4 space-y-3">
-        <p className="truncate" style={{ color: "#2D3748" }}>
+        <p className="truncate text-gray-800 dark:text-gray-200">
           {image.filename}
         </p>
 
@@ -67,29 +67,22 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
           {image.tags.map((tag) => (
             <Badge
               key={tag}
-              className="px-2 py-1 rounded-full border-0 uppercase"
-              style={{
-                background: "#E2E8F0",
-                color: "#667EEA",
-                fontSize: "12px",
-              }}
+              className="px-2 py-1 rounded-full border-0 uppercase bg-gray-200 dark:bg-slate-700 text-xs"
+              style={{ color: "#667EEA" }}
             >
               {tag}
             </Badge>
           ))}
         </div>
 
-        <div className="flex items-center gap-1.5" style={{ color: "#718096" }}>
+        <div className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400">
           <Clock className="w-4 h-4" />
           <span>{image.uploadTime}</span>
         </div>
 
         {image.status === "complete" && (
           <div className="pt-2">
-            <span
-              className="uppercase"
-              style={{ color: "#48BB78", fontSize: "12px" }}
-            >
+            <span className="uppercase text-green-500 dark:text-green-400 text-xs">
               AI Complete
             </span>
           </div>

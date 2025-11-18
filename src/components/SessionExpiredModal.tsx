@@ -60,35 +60,29 @@ export default function SessionExpiredModal({
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
       <DialogContent
-        className="max-w-md bg-white rounded-xl"
+        className="max-w-md bg-white dark:bg-slate-900 rounded-xl"
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle style={{ color: "#2D3748" }}>Session Expired</DialogTitle>
+          <DialogTitle className="text-gray-800 dark:text-gray-200">Session Expired</DialogTitle>
         </DialogHeader>
 
         <div className="py-6 flex flex-col items-center">
-          <div
-            className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
-            style={{ background: "#FED7D7" }}
-          >
-            <AlertCircle className="w-8 h-8" style={{ color: "#F56565" }} />
+          <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-4">
+            <AlertCircle className="w-8 h-8 text-red-500" />
           </div>
 
-          <h3 className="mb-2 text-center" style={{ color: "#2D3748" }}>
+          <h3 className="mb-2 text-center text-gray-800 dark:text-gray-200">
             Your session has expired
           </h3>
 
-          <p className="text-center mb-6" style={{ color: "#718096" }}>
+          <p className="text-center mb-6 text-gray-600 dark:text-gray-400">
             Would you like to refresh your session and continue?
           </p>
 
           {error && (
-            <div
-              className="w-full p-3 rounded-lg mb-4"
-              style={{ background: "#FED7D7", color: "#F56565" }}
-            >
+            <div className="w-full p-3 rounded-lg mb-4 bg-red-100 dark:bg-red-900/30 text-red-500">
               {error}
             </div>
           )}

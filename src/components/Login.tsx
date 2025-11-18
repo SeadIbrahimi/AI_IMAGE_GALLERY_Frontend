@@ -58,11 +58,8 @@ export default function Login() {
           onClose={() => setNotification(null)}
         />
       )}
-      <div
-        className="min-h-screen flex items-center justify-center px-4"
-        style={{ background: "#F7FAFC" }}
-      >
-        <div className="w-full max-w-[400px] bg-white rounded-xl shadow-lg p-8">
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-800 flex items-center justify-center px-4">
+        <div className="w-full max-w-[400px] bg-white dark:bg-slate-900 rounded-xl shadow-lg p-8">
           <div className="flex flex-col items-center mb-8">
             <div
               className="w-16 h-16 rounded-xl flex items-center justify-center mb-4"
@@ -72,17 +69,17 @@ export default function Login() {
             >
               <ImageIcon className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-center" style={{ color: "#2D3748" }}>
+            <h1 className="text-center text-gray-800 dark:text-gray-200">
               Welcome Back
             </h1>
-            <p className="text-center mt-2" style={{ color: "#718096" }}>
+            <p className="text-center mt-2 text-gray-600 dark:text-gray-400">
               Sign in to access your AI Gallery
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" style={{ color: "#2D3748" }}>
+              <Label htmlFor="email" className="text-gray-800 dark:text-gray-200">
                 Email
               </Label>
               <Input
@@ -92,14 +89,13 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-11"
-                style={{ borderColor: "#E2E8F0" }}
                 required
                 disabled={isSubmitting}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" style={{ color: "#2D3748" }}>
+              <Label htmlFor="password" className="text-gray-800 dark:text-gray-200">
                 Password
               </Label>
               <Input
@@ -109,7 +105,6 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="h-11"
-                style={{ borderColor: "#E2E8F0" }}
                 required
                 disabled={isSubmitting}
               />
@@ -133,7 +128,7 @@ export default function Login() {
               {isSubmitting ? "Signing In..." : "Sign In"}
             </Button>
 
-            <p className="text-center" style={{ color: "#718096" }}>
+            <p className="text-center text-gray-600 dark:text-gray-400">
               Don't have an account?{" "}
               <Link
                 to="/signup"

@@ -115,11 +115,13 @@ export default function UploadModal({
       setProgress(100);
       setState("success");
 
-      // Wait a bit to show success state, then close and refresh
+      // Close modal immediately and trigger refresh
+      onUploadComplete();
+
+      // Reset modal state after a brief delay to allow smooth transition
       setTimeout(() => {
-        onUploadComplete();
         handleReset();
-      }, 1500);
+      }, 500);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Upload failed. Please try again.";
@@ -146,9 +148,9 @@ export default function UploadModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl bg-white rounded-xl">
+      <DialogContent className="max-w-2xl bg-white dark:bg-slate-900 rounded-xl">
         <DialogHeader>
-          <DialogTitle style={{ color: "#2D3748" }}>Upload Image</DialogTitle>
+          <DialogTitle className="text-gray-800 dark:text-gray-200">Upload Image</DialogTitle>
         </DialogHeader>
 
         {state === "empty" && (
@@ -156,18 +158,14 @@ export default function UploadModal({
             onDragOver={handleDragOver}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed rounded-xl p-12 flex flex-col items-center justify-center cursor-pointer hover:border-purple-400 transition-colors"
-            style={{ borderColor: "#CBD5E0", background: "#F7FAFC" }}
+            className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-xl p-12 flex flex-col items-center justify-center cursor-pointer hover:border-purple-400 transition-colors bg-gray-50 dark:bg-slate-800"
           >
-            <Upload className="w-16 h-16 mb-4" style={{ color: "#A0AEC0" }} />
-            <p className="mb-2" style={{ color: "#2D3748" }}>
+            <Upload className="w-16 h-16 mb-4 text-gray-400 dark:text-gray-600" />
+            <p className="mb-2 text-gray-800 dark:text-gray-200">
               Drag & drop your images here
             </p>
-            <p style={{ color: "#718096" }}>or click to browse</p>
-            <p
-              className="mt-4 uppercase"
-              style={{ color: "#A0AEC0", fontSize: "12px" }}
-            >
+            <p className="text-gray-600 dark:text-gray-400">or click to browse</p>
+            <p className="mt-4 uppercase text-gray-400 dark:text-gray-600 text-xs">
               All Image Formats • Max 10MB per file
             </p>
           </div>
@@ -184,9 +182,9 @@ export default function UploadModal({
               {selectedFiles.map((fileObj, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
+                  className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-lg"
                 >
-                  <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-200 shrink-0">
+                  <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-200 dark:bg-slate-700 shrink-0">
                     <ImageWithFallback
                       src={fileObj.preview}
                       alt={fileObj.file.name}
@@ -194,18 +192,18 @@ export default function UploadModal({
                     />
                   </div>
                   <div className="flex-1 min-w-0 overflow-hidden">
-                    <p className="truncate whitespace-nowrap overflow-hidden text-ellipsis" style={{ color: "#2D3748" }}>
+                    <p className="truncate whitespace-nowrap overflow-hidden text-ellipsis text-gray-800 dark:text-gray-200">
                       {fileObj.file.name}
                     </p>
-                    <p className="text-sm" style={{ color: "#718096" }}>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       {(fileObj.file.size / (1024 * 1024)).toFixed(1)} MB
                     </p>
                   </div>
                   <button
                     onClick={() => removeFile(index)}
-                    className="p-2 hover:bg-gray-200 rounded-lg shrink-0"
+                    className="p-2 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-lg shrink-0"
                   >
-                    <X className="w-5 h-5" style={{ color: "#718096" }} />
+                    <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                   </button>
                 </div>
               ))}
@@ -240,20 +238,20 @@ export default function UploadModal({
 
         {state === "uploading" && selectedFiles.length > 0 && (
           <div className="space-y-6">
-            <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-lg">
               <Upload className="w-8 h-8" style={{ color: "#667EEA" }} />
               <div className="flex-1">
-                <p style={{ color: "#2D3748" }}>
+                <p className="text-gray-800 dark:text-gray-200">
                   Uploading {selectedFiles.length} image
                   {selectedFiles.length !== 1 ? "s" : ""}...
                 </p>
                 <div className="mt-2 space-y-1">
                   <div className="flex items-center justify-between">
-                    <span style={{ color: "#667EEA", fontSize: "14px" }}>
+                    <span className="text-sm" style={{ color: "#667EEA" }}>
                       {progress}%
                     </span>
                   </div>
-                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-2 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
                     <div
                       className="h-full transition-all duration-300"
                       style={{
@@ -271,16 +269,13 @@ export default function UploadModal({
 
         {state === "success" && (
           <div className="py-12 flex flex-col items-center justify-center">
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
-              style={{ background: "#C6F6D5" }}
-            >
-              <CheckCircle2 className="w-8 h-8" style={{ color: "#48BB78" }} />
+            <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
+              <CheckCircle2 className="w-8 h-8 text-green-500" />
             </div>
-            <h3 className="mb-2" style={{ color: "#2D3748" }}>
+            <h3 className="mb-2 text-gray-800 dark:text-gray-200">
               Upload Complete!
             </h3>
-            <p style={{ color: "#718096" }}>
+            <p className="text-gray-600 dark:text-gray-400">
               Your {selectedFiles.length > 1 ? "images are" : "image is"} being
               processed...
             </p>
@@ -289,16 +284,13 @@ export default function UploadModal({
 
         {state === "error" && (
           <div className="py-12 flex flex-col items-center justify-center">
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
-              style={{ background: "#FED7D7" }}
-            >
-              <XCircle className="w-8 h-8" style={{ color: "#F56565" }} />
+            <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-4">
+              <XCircle className="w-8 h-8 text-red-500" />
             </div>
-            <h3 className="mb-2" style={{ color: "#2D3748" }}>
+            <h3 className="mb-2 text-gray-800 dark:text-gray-200">
               Upload Failed
             </h3>
-            <p className="mb-6" style={{ color: "#F56565" }}>
+            <p className="mb-6 text-red-500">
               {error}
             </p>
             <Button onClick={handleReset} variant="outline">

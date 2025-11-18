@@ -49,7 +49,7 @@ export default function SimilarImages() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#F7FAFC' }}>
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-800 flex items-center justify-center">
         <div className="flex flex-col items-center">
           <LoadingSpinner size="lg" />
           <p className="mt-4 text-lg font-medium" style={{ color: '#667EEA' }}>
@@ -62,11 +62,11 @@ export default function SimilarImages() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#F7FAFC' }}>
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-800 flex items-center justify-center">
         <div className="flex flex-col items-center">
-          <ImageOff className="w-24 h-24 mb-4" style={{ color: '#CBD5E0' }} />
-          <h2 style={{ color: '#2D3748' }}>Failed to load similar images</h2>
-          <p className="mt-2 mb-6" style={{ color: '#718096' }}>{error}</p>
+          <ImageOff className="w-24 h-24 mb-4 text-gray-400 dark:text-gray-600" />
+          <h2 className="text-gray-800 dark:text-gray-200">Failed to load similar images</h2>
+          <p className="mt-2 mb-6 text-gray-600 dark:text-gray-400">{error}</p>
           <Button onClick={() => navigate(`/image/${id}`)} variant="outline">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Image
@@ -81,8 +81,8 @@ export default function SimilarImages() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#F7FAFC' }}>
-      <div className="bg-white border-b" style={{ borderColor: '#E2E8F0' }}>
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-800">
+      <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700">
         <div className="container mx-auto px-8 py-4">
           <Button
             onClick={() => navigate(`/image/${id}`)}
@@ -96,22 +96,22 @@ export default function SimilarImages() {
       </div>
 
       <div className="container mx-auto px-8 py-8">
-        <h1 className="mb-8" style={{ color: '#2D3748' }}>Similar Images</h1>
+        <h1 className="mb-8 text-gray-800 dark:text-gray-200">Similar Images</h1>
 
         {similarImages.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
-            <ImageOff className="w-24 h-24 mb-4" style={{ color: '#CBD5E0' }} />
-            <h2 style={{ color: '#2D3748' }}>No similar images found</h2>
-            <p className="mt-2" style={{ color: '#718096' }}>
+            <ImageOff className="w-24 h-24 mb-4 text-gray-400 dark:text-gray-600" />
+            <h2 className="text-gray-800 dark:text-gray-200">No similar images found</h2>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">
               We couldn't find any similar images at this time.
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-xl overflow-hidden shadow-lg sticky top-8">
+              <div className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-lg sticky top-8">
                 <div className="p-4">
-                  <p className="mb-3 uppercase" style={{ color: '#718096', fontSize: '12px' }}>
+                  <p className="mb-3 uppercase text-gray-600 dark:text-gray-400 text-xs">
                     Original Image
                   </p>
                 </div>
@@ -121,7 +121,7 @@ export default function SimilarImages() {
                   className="w-full aspect-square object-cover"
                 />
                 <div className="p-4">
-                  <p style={{ color: '#2D3748' }}>{originalImage.filename}</p>
+                  <p className="text-gray-800 dark:text-gray-200">{originalImage.filename}</p>
                 </div>
               </div>
             </div>
@@ -135,7 +135,7 @@ export default function SimilarImages() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                     onClick={() => navigate(`/image/${image.id}`)}
-                    className="bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                    className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
                   >
                     <div className="relative">
                       <ImageWithFallback
@@ -145,10 +145,9 @@ export default function SimilarImages() {
                       />
                       <div className="absolute top-3 right-3">
                         <div
-                          className="px-3 py-1.5 rounded-full text-white"
+                          className="px-3 py-1.5 rounded-full text-white text-xs"
                           style={{
-                            background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
-                            fontSize: '12px'
+                            background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)'
                           }}
                         >
                           {Math.round(image.similarity_percentage)}% Match
@@ -156,8 +155,8 @@ export default function SimilarImages() {
                       </div>
                     </div>
                     <div className="p-4">
-                      <p style={{ color: '#2D3748' }}>{image.display_name || image.filename}</p>
-                      <div className="mt-3 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <p className="text-gray-800 dark:text-gray-200">{image.display_name || image.filename}</p>
+                      <div className="mt-3 h-2 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${image.similarity_percentage}%` }}
