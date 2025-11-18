@@ -56,7 +56,8 @@ export default function Signup() {
     try {
       await apiService.signup({ email, password });
       setNotification({
-        message: "Account created successfully! Please verify your email and then log in.",
+        message:
+          "Account created successfully! Please verify your email and then log in.",
         type: "success",
       });
 
@@ -116,6 +117,7 @@ export default function Signup() {
               <Input
                 id="email"
                 type="email"
+                placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-11"
@@ -132,6 +134,7 @@ export default function Signup() {
               <Input
                 id="password"
                 type="password"
+                placeholder="•••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="h-11"
@@ -173,6 +176,7 @@ export default function Signup() {
                 <Input
                   id="confirmPassword"
                   type="password"
+                  placeholder="•••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="h-11 pr-10"
