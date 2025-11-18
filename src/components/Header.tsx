@@ -7,15 +7,17 @@ interface HeaderProps {
   onSearch: (query: string) => void;
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 }
 
 export default function Header({
   onSearch,
   isSidebarOpen,
   setIsSidebarOpen,
+  searchQuery,
+  setSearchQuery,
 }: HeaderProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Prevent form submission, search happens on onChange
@@ -50,9 +52,7 @@ export default function Header({
           >
             <ImageIcon className="w-5 h-5 md:w-6 md:h-6 text-white" />
           </div>
-          <span
-            className="hidden md:block text-base md:text-xl text-gray-800 dark:text-white"
-          >
+          <span className="hidden md:block text-base md:text-xl text-gray-800 dark:text-white">
             AI Gallery
           </span>
         </div>
@@ -67,9 +67,7 @@ export default function Header({
               className="pl-9 md:pl-10 h-10 md:h-11 text-sm md:text-base bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600"
               style={{ borderColor: "#E2E8F0" }}
             />
-            <Search
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-gray-400 dark:text-gray-500"
-            />
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-gray-400 dark:text-gray-500" />
           </div>
         </form>
 

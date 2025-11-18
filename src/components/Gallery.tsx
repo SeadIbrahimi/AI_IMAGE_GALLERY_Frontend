@@ -61,6 +61,7 @@ export default function Gallery() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [images, setImages] = useState<Image[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -68,23 +69,40 @@ export default function Gallery() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const pageSize = 20;
   const navigate = useNavigate();
 
-  // Fetch images with current filters
-  const fetchImages = async () => {
+  // Fetch images with current filters (initial load)
+  const fetchImages = async (resetPage = false) => {
     try {
-      setIsLoading(true);
+      if (resetPage) {
+        setIsLoading(true);
+        setCurrentPage(1);
+      } else {
+        setIsLoading(true);
+      }
       setError(null);
+
+      const pageToFetch = resetPage ? 1 : currentPage;
+      console.log('fetchImages - fetching page:', pageToFetch);
+
       const response = await apiService.getImages(
-        20, // Changed from 100 to 20 as default
-        0,
+        pageSize,
+        pageToFetch,
         searchQuery || undefined,
         selectedTags.length > 0 ? selectedTags : undefined,
         selectedColors.length > 0 ? selectedColors : undefined,
         sortBy !== "recent" ? sortBy : undefined
       );
+
+      console.log('fetchImages response:', response);
       setImages(response.images);
-      setTotalCount(response.count);
+      setTotalCount(response.totalItems);
+      const hasMorePages = response.pageNumber < response.totalPages;
+      console.log('Setting hasMore to:', hasMorePages, 'pageNumber:', response.pageNumber, 'totalPages:', response.totalPages);
+      setHasMore(hasMorePages);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to load images";
@@ -95,10 +113,44 @@ export default function Gallery() {
     }
   };
 
+  // Load more images (for infinite scroll)
+  const loadMoreImages = async () => {
+    console.log('loadMoreImages called', { isLoadingMore, hasMore, currentPage });
+    if (isLoadingMore || !hasMore) {
+      console.log('Skipping load - already loading or no more images');
+      return;
+    }
+
+    try {
+      setIsLoadingMore(true);
+      const nextPage = currentPage + 1;
+      console.log('Loading page:', nextPage);
+
+      const response = await apiService.getImages(
+        pageSize,
+        nextPage,
+        searchQuery || undefined,
+        selectedTags.length > 0 ? selectedTags : undefined,
+        selectedColors.length > 0 ? selectedColors : undefined,
+        sortBy !== "recent" ? sortBy : undefined
+      );
+
+      console.log('Loaded images:', response);
+      setImages((prev) => [...prev, ...response.images]);
+      setCurrentPage(nextPage);
+      setTotalCount(response.totalItems);
+      setHasMore(response.pageNumber < response.totalPages);
+    } catch (err) {
+      console.error("Failed to load more images:", err);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+
   // Debounced search effect
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
-      fetchImages();
+      fetchImages(true);
     }, 500); // 500ms debounce for search
 
     return () => clearTimeout(debounceTimer);
@@ -106,8 +158,42 @@ export default function Gallery() {
 
   // Immediate fetch on filter/sort changes
   useEffect(() => {
-    fetchImages();
+    fetchImages(true);
   }, [selectedColors, selectedTags, sortBy]);
+
+  // Scroll detection for infinite scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      // Check if user has scrolled near the bottom
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+      const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+
+      console.log('Scroll debug:', {
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+        distanceFromBottom,
+        hasMore,
+        isLoadingMore,
+        isLoading,
+        currentPage
+      });
+
+      // Load more when user is 300px from bottom
+      if (distanceFromBottom < 300 && hasMore && !isLoadingMore && !isLoading) {
+        console.log('Triggering loadMoreImages');
+        loadMoreImages();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Also trigger once on mount to check initial state
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasMore, isLoadingMore, isLoading, currentPage]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -146,6 +232,8 @@ export default function Gallery() {
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
         onSearch={handleSearch}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
       />
 
       <div className="flex min-h-screen relative">
@@ -162,9 +250,13 @@ export default function Gallery() {
 
         <main className="flex-1 p-8">
           {/* Active Filters Bar */}
-          {(searchQuery || selectedColors.length > 0 || selectedTags.length > 0) && (
+          {(searchQuery ||
+            selectedColors.length > 0 ||
+            selectedTags.length > 0) && (
             <div className="mb-6 flex items-center gap-3 flex-wrap">
-              <span className="text-gray-600 dark:text-gray-400">Active filters:</span>
+              <span className="text-gray-600 dark:text-gray-400">
+                Active filters:
+              </span>
               {searchQuery && (
                 <div className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center gap-2">
                   <span className="text-purple-600 dark:text-purple-400 text-sm">
@@ -179,12 +271,17 @@ export default function Gallery() {
                 </div>
               )}
               {selectedTags.map((tag) => (
-                <div key={tag} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center gap-2">
+                <div
+                  key={tag}
+                  className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center gap-2"
+                >
                   <span className="text-purple-600 dark:text-purple-400 text-sm">
                     {tag}
                   </span>
                   <button
-                    onClick={() => setSelectedTags(selectedTags.filter(t => t !== tag))}
+                    onClick={() =>
+                      setSelectedTags(selectedTags.filter((t) => t !== tag))
+                    }
                     className="hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full p-0.5"
                   >
                     <X className="w-3 h-3 text-purple-600 dark:text-purple-400" />
@@ -192,12 +289,19 @@ export default function Gallery() {
                 </div>
               ))}
               {selectedColors.map((color) => (
-                <div key={color} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center gap-2">
+                <div
+                  key={color}
+                  className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center gap-2"
+                >
                   <span className="text-purple-600 dark:text-purple-400 text-sm">
                     {getColorName(color)}
                   </span>
                   <button
-                    onClick={() => setSelectedColors(selectedColors.filter(c => c !== color))}
+                    onClick={() =>
+                      setSelectedColors(
+                        selectedColors.filter((c) => c !== color)
+                      )
+                    }
                     className="hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full p-0.5"
                   >
                     <X className="w-3 h-3 text-purple-600 dark:text-purple-400" />
@@ -257,16 +361,22 @@ export default function Gallery() {
                 style={{ color: "#CBD5E0" }}
               />
               <h2 style={{ color: "#2D3748" }}>
-                {searchQuery || selectedColors.length > 0 || selectedTags.length > 0
+                {searchQuery ||
+                selectedColors.length > 0 ||
+                selectedTags.length > 0
                   ? "No images found"
                   : "No images yet"}
               </h2>
               <p className="mt-2 mb-6" style={{ color: "#718096" }}>
-                {searchQuery || selectedColors.length > 0 || selectedTags.length > 0
+                {searchQuery ||
+                selectedColors.length > 0 ||
+                selectedTags.length > 0
                   ? "Try adjusting your filters or search query"
                   : "Upload your first image to get started"}
               </p>
-              {searchQuery || selectedColors.length > 0 || selectedTags.length > 0 ? (
+              {searchQuery ||
+              selectedColors.length > 0 ||
+              selectedTags.length > 0 ? (
                 <Button
                   onClick={() => {
                     setSearchQuery("");
@@ -294,15 +404,38 @@ export default function Gallery() {
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {displayImages.map((image) => (
-                <ImageCard
-                  key={image.id}
-                  image={image}
-                  onClick={() => handleImageClick(image.id)}
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {displayImages.map((image) => (
+                  <ImageCard
+                    key={image.id}
+                    image={image}
+                    onClick={() => handleImageClick(image.id)}
+                  />
+                ))}
+              </div>
+
+              {/* Loading more indicator */}
+              {isLoadingMore && (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <LoadingSpinner size="md" />
+                  <p
+                    className="mt-4 text-sm font-medium"
+                    style={{ color: "#667EEA" }}
+                  >
+                    Loading more images...
+                  </p>
+                </div>
+              )}
+
+              {/* Results summary */}
+              {!isLoadingMore && totalCount > 0 && (
+                <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
+                  Showing {images.length} of {totalCount} images
+                  {hasMore && " • Scroll down for more"}
+                </div>
+              )}
+            </>
           )}
         </main>
       </div>

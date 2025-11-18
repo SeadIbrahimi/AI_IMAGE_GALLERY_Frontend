@@ -45,9 +45,10 @@ export interface ImageDetail extends Image {
 
 export interface ImagesResponse {
   images: Image[];
-  count: number;
-  limit: number;
-  offset: number;
+  totalItems: number;
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 export interface DeleteImageResponse {
@@ -169,16 +170,16 @@ class ApiService {
 
   // Get all images with pagination and filters
   async getImages(
-    limit: number = 20,
-    offset: number = 0,
+    pageSize: number = 20,
+    pageNumber: number = 1,
     search?: string,
     tags?: string[],
     colors?: string[],
     sortBy?: string
   ): Promise<ImagesResponse> {
     const params = new URLSearchParams();
-    params.append('limit', limit.toString());
-    params.append('offset', offset.toString());
+    params.append('pageSize', pageSize.toString());
+    params.append('pageNumber', pageNumber.toString());
 
     if (search && search.trim()) params.append('search', search.trim());
     if (tags && tags.length > 0) params.append('tags', tags.join(','));
