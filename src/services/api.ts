@@ -221,6 +221,11 @@ class ApiService {
     });
 
     if (!response.ok) {
+      // Handle 413 Payload Too Large error
+      if (response.status === 413) {
+        throw new Error(`Image "${file.name}" is too large. Please upload a smaller image.`);
+      }
+
       const error = await response.json().catch(() => ({
         detail: response.statusText,
       }));
@@ -252,6 +257,13 @@ class ApiService {
     });
 
     if (!response.ok) {
+      // Handle 413 Payload Too Large error
+      if (response.status === 413) {
+        const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+        const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+        throw new Error(`Upload too large (${totalSizeMB} MB). Please upload fewer or smaller images.`);
+      }
+
       const error = await response.json().catch(() => ({
         detail: response.statusText,
       }));

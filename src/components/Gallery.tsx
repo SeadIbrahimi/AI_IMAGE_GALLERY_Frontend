@@ -204,8 +204,8 @@ export default function Gallery() {
   };
 
   const handleUploadComplete = async () => {
-    // Refresh the images list after upload
-    await fetchImages();
+    // Refresh the images list after upload and reset to page 1
+    await fetchImages(true);
     setIsUploadModalOpen(false);
   };
 
