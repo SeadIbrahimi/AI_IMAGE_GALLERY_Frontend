@@ -9,8 +9,8 @@ import { Notification } from "./Notification";
 import { LoadingSpinner } from "./LoadingSpinner";
 
 export default function Login() {
-  const [email, setEmail] = useState("gajiwe3229@etramay.com");
-  const [password, setPassword] = useState("securepassword123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState<{
     message: string;
@@ -87,6 +87,7 @@ export default function Login() {
               </Label>
               <Input
                 id="email"
+                placeholder="Enter email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -104,6 +105,7 @@ export default function Login() {
               <Input
                 id="password"
                 type="password"
+                placeholder="•••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="h-11"
