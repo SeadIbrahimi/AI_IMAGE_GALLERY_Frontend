@@ -223,7 +223,7 @@ class ApiService {
     if (!response.ok) {
       // Handle 413 Payload Too Large error
       if (response.status === 413) {
-        throw new Error(`Image "${file.name}" is too large. Please upload a smaller image.`);
+        throw new Error(`Image is too large. Please upload a smaller image.`);
       }
 
       const error = await response.json().catch(() => ({

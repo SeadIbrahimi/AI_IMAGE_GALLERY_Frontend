@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667EEA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764BA2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#grad)" />
+
+  <!-- Image/Gallery icon -->
+  <rect x="25" y="30" width="50" height="40" rx="4" fill="white" opacity="0.9" />
+  <rect x="28" y="33" width="44" height="30" rx="2" fill="url(#grad)" opacity="0.3" />
+
+  <!-- Mountain/image symbol -->
+  <path d="M 30 55 L 40 42 L 48 52 L 58 40 L 68 55 Z" fill="white" opacity="0.9" />
+
+  <!-- AI sparkle in corner -->
+  <circle cx="65" cy="35" r="3" fill="white" />
+  <path d="M 65 30 L 65 40 M 60 35 L 70 35" stroke="white" stroke-width="1.5" />
+</svg>
