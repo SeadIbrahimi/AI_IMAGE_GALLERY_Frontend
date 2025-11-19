@@ -217,16 +217,20 @@ export default function Gallery() {
       />
 
       <div className="flex min-h-screen relative">
-        <Sidebar
-          selectedColors={selectedColors}
-          onColorChange={setSelectedColors}
-          selectedTags={selectedTags}
-          onTagChange={setSelectedTags}
-          sortBy={sortBy}
-          onSortChange={setSortBy}
-          isOpen={isSidebarOpen}
-          setIsOpen={setIsSidebarOpen}
-        />
+        {(images.length > 0 ||
+          selectedColors.length > 0 ||
+          selectedTags.length > 0) && (
+          <Sidebar
+            selectedColors={selectedColors}
+            onColorChange={setSelectedColors}
+            selectedTags={selectedTags}
+            onTagChange={setSelectedTags}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            isOpen={isSidebarOpen}
+            setIsOpen={setIsSidebarOpen}
+          />
+        )}
 
         <main className="flex-1 p-8">
           {/* Active Filters Bar */}

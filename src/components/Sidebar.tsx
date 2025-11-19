@@ -148,12 +148,12 @@ export default function Sidebar({
                       : "border-2 border-gray-200 dark:border-slate-600"
                   }`}
                   style={{
-                    background: colorItem.color,
+                    background: colorItem.color || "#9CA3AF",
                     borderColor: selectedColors.includes(colorItem.color)
                       ? "#667EEA"
                       : undefined,
                   }}
-                  title={colorItem.color}
+                  title={colorItem.color || "Unknown color"}
                 />
               ))}
             </div>

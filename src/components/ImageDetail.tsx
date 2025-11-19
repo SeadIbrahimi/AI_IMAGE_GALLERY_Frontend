@@ -15,6 +15,7 @@ import { apiService, ImageDetail as ImageDetailType } from "../services/api";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { Notification } from "./Notification";
 import EditImageModal from "./EditImageModal";
+import ConfirmModal from "./ConfirmModal";
 
 // Helper function to format file size
 const formatFileSize = (bytes: number): string => {
@@ -57,6 +58,7 @@ export default function ImageDetail() {
   const [error, setError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [notification, setNotification] = useState<{
     message: string;
     type: "success" | "error";
@@ -84,12 +86,16 @@ export default function ImageDetail() {
     }
   };
 
-  const handleDelete = async () => {
-    if (!id || !window.confirm("Are you sure you want to delete this image?"))
-      return;
+  const handleDeleteClick = () => {
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!id) return;
 
     try {
       setIsDeleting(true);
+      setIsConfirmModalOpen(false);
       const imageId = parseInt(id, 10);
       const response = await apiService.deleteImage(imageId);
       setNotification({
@@ -314,7 +320,7 @@ export default function ImageDetail() {
                     Find Similar
                   </Button>
                   <Button
-                    onClick={handleDelete}
+                    onClick={handleDeleteClick}
                     variant="outline"
                     className="w-full h-11 border-red-200 hover:bg-red-50 flex items-center justify-center gap-2"
                     style={{ color: "#F56565" }}
@@ -348,6 +354,17 @@ export default function ImageDetail() {
           onUpdateSuccess={handleUpdateSuccess}
         />
       )}
+
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Image"
+        message="Are you sure you want to delete this image? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        isLoading={isDeleting}
+      />
     </>
   );
 }
