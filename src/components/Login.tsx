@@ -44,7 +44,6 @@ export default function Login() {
         message,
         type: "error",
       });
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -79,7 +78,10 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-800 dark:text-gray-200">
+              <Label
+                htmlFor="email"
+                className="text-gray-800 dark:text-gray-200"
+              >
                 Email
               </Label>
               <Input
@@ -95,7 +97,10 @@ export default function Login() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-800 dark:text-gray-200">
+              <Label
+                htmlFor="password"
+                className="text-gray-800 dark:text-gray-200"
+              >
                 Password
               </Label>
               <Input
@@ -109,6 +114,12 @@ export default function Login() {
                 disabled={isSubmitting}
               />
             </div>
+
+            {notification && notification.type === "error" && (
+              <div className="p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm">
+                {notification.message}
+              </div>
+            )}
 
             <Button
               type="submit"

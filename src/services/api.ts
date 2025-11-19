@@ -132,17 +132,65 @@ class ApiService {
   }
 
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    return this.request<AuthResponse>("/auth/login", {
+    // Use a special flag to prevent session expired event on login
+    const url = `${BASE_URL}/auth/login`;
+    const config: RequestInit = {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(credentials),
-    });
+    };
+
+    const response = await fetch(url, config);
+
+    if (!response.ok) {
+      let errorMessage = `HTTP error! status: ${response.status}`;
+
+      try {
+        const errorData = await response.json();
+        // Handle both "detail" and "message" formats
+        errorMessage = errorData.detail || errorData.message || errorMessage;
+      } catch (e) {
+        // If JSON parsing fails, use status text
+        errorMessage = response.statusText || errorMessage;
+      }
+
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
   }
 
   async signup(credentials: SignupCredentials): Promise<AuthResponse> {
-    return this.request<AuthResponse>("/auth/signup", {
+    // Use a special flag to prevent session expired event on signup
+    const url = `${BASE_URL}/auth/signup`;
+    const config: RequestInit = {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(credentials),
-    });
+    };
+
+    const response = await fetch(url, config);
+
+    if (!response.ok) {
+      let errorMessage = `HTTP error! status: ${response.status}`;
+
+      try {
+        const errorData = await response.json();
+        // Handle both "detail" and "message" formats
+        errorMessage = errorData.detail || errorData.message || errorMessage;
+      } catch (e) {
+        // If JSON parsing fails, use status text
+        errorMessage = response.statusText || errorMessage;
+      }
+
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
   }
 
   async refreshSession(refreshToken: string): Promise<AuthResponse> {
@@ -187,7 +235,6 @@ class ApiService {
     if (sortBy && sortBy !== 'recent') params.append('sort_by', sortBy);
 
     const url = `/images?${params.toString()}`;
-    console.log('Fetching images from:', url);
 
     return this.authenticatedRequest<ImagesResponse>(url);
   }

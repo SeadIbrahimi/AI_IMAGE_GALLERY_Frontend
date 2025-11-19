@@ -86,7 +86,6 @@ export default function Gallery() {
       setError(null);
 
       const pageToFetch = resetPage ? 1 : currentPage;
-      console.log('fetchImages - fetching page:', pageToFetch);
 
       const response = await apiService.getImages(
         pageSize,
@@ -97,17 +96,14 @@ export default function Gallery() {
         sortBy !== "recent" ? sortBy : undefined
       );
 
-      console.log('fetchImages response:', response);
       setImages(response.images);
       setTotalCount(response.totalItems);
       const hasMorePages = response.pageNumber < response.totalPages;
-      console.log('Setting hasMore to:', hasMorePages, 'pageNumber:', response.pageNumber, 'totalPages:', response.totalPages);
       setHasMore(hasMorePages);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to load images";
       setError(message);
-      console.error("Failed to fetch images:", err);
     } finally {
       setIsLoading(false);
     }
@@ -115,16 +111,13 @@ export default function Gallery() {
 
   // Load more images (for infinite scroll)
   const loadMoreImages = async () => {
-    console.log('loadMoreImages called', { isLoadingMore, hasMore, currentPage });
     if (isLoadingMore || !hasMore) {
-      console.log('Skipping load - already loading or no more images');
       return;
     }
 
     try {
       setIsLoadingMore(true);
       const nextPage = currentPage + 1;
-      console.log('Loading page:', nextPage);
 
       const response = await apiService.getImages(
         pageSize,
@@ -135,13 +128,11 @@ export default function Gallery() {
         sortBy !== "recent" ? sortBy : undefined
       );
 
-      console.log('Loaded images:', response);
       setImages((prev) => [...prev, ...response.images]);
       setCurrentPage(nextPage);
       setTotalCount(response.totalItems);
       setHasMore(response.pageNumber < response.totalPages);
     } catch (err) {
-      console.error("Failed to load more images:", err);
     } finally {
       setIsLoadingMore(false);
     }
@@ -170,29 +161,17 @@ export default function Gallery() {
       const clientHeight = window.innerHeight;
       const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
 
-      console.log('Scroll debug:', {
-        scrollTop,
-        scrollHeight,
-        clientHeight,
-        distanceFromBottom,
-        hasMore,
-        isLoadingMore,
-        isLoading,
-        currentPage
-      });
-
       // Load more when user is 300px from bottom
       if (distanceFromBottom < 300 && hasMore && !isLoadingMore && !isLoading) {
-        console.log('Triggering loadMoreImages');
         loadMoreImages();
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     // Also trigger once on mount to check initial state
     handleScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [hasMore, isLoadingMore, isLoading, currentPage]);
 
   const handleSearch = (query: string) => {

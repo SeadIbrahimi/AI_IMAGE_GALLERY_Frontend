@@ -44,7 +44,6 @@ export default function Sidebar({
         const response = await apiService.getPopularColors(10);
         setColorOptions(response.colors);
       } catch (error) {
-        console.error("Failed to fetch colors:", error);
         // Fallback to default colors if API fails
         setColorOptions([
           { color: "#EF4444", count: 0 },
@@ -72,7 +71,6 @@ export default function Sidebar({
         const response = await apiService.getRecentTags();
         setTagOptions(response.tags);
       } catch (error) {
-        console.error("Failed to fetch tags:", error);
         setTagOptions([
           "Nature",
           "Urban",
@@ -138,9 +136,7 @@ export default function Sidebar({
 
         <div className="space-y-8">
           <div>
-            <h3 className="mb-4 text-gray-800 dark:text-white">
-              Colors
-            </h3>
+            <h3 className="mb-4 text-gray-800 dark:text-white">Colors</h3>
             <div className="grid grid-cols-4 gap-3">
               {colorOptions.map((colorItem) => (
                 <button
@@ -164,9 +160,7 @@ export default function Sidebar({
           </div>
 
           <div>
-            <h3 className="mb-4 text-gray-800 dark:text-white">
-              Tags
-            </h3>
+            <h3 className="mb-4 text-gray-800 dark:text-white">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {tagOptions.map((tag) => (
                 <button
@@ -204,10 +198,30 @@ export default function Sidebar({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-white dark:bg-slate-800 dark:border-slate-600">
-                <SelectItem value="recent" className="dark:text-white dark:hover:bg-slate-700">Most Recent</SelectItem>
-                <SelectItem value="oldest" className="dark:text-white dark:hover:bg-slate-700">Oldest First</SelectItem>
-                <SelectItem value="a-z" className="dark:text-white dark:hover:bg-slate-700">A-Z</SelectItem>
-                <SelectItem value="z-a" className="dark:text-white dark:hover:bg-slate-700">Z-A</SelectItem>
+                <SelectItem
+                  value="recent"
+                  className="dark:text-white dark:hover:bg-slate-700"
+                >
+                  Most Recent
+                </SelectItem>
+                <SelectItem
+                  value="oldest"
+                  className="dark:text-white dark:hover:bg-slate-700"
+                >
+                  Oldest First
+                </SelectItem>
+                <SelectItem
+                  value="a-z"
+                  className="dark:text-white dark:hover:bg-slate-700"
+                >
+                  A-Z
+                </SelectItem>
+                <SelectItem
+                  value="z-a"
+                  className="dark:text-white dark:hover:bg-slate-700"
+                >
+                  Z-A
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
